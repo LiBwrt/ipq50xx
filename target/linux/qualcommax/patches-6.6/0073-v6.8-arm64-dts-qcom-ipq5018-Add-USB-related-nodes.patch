@@ -14,8 +14,6 @@ Signed-off-by: Bjorn Andersson <andersson@kernel.org>
  arch/arm64/boot/dts/qcom/ipq5018.dtsi | 54 +++++++++++++++++++++++++++
  1 file changed, 54 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/qcom/ipq5018.dtsi b/arch/arm64/boot/dts/qcom/ipq5018.dtsi
-index 38ffdc3cbdcd7c..340b90cc17db85 100644
 --- a/arch/arm64/boot/dts/qcom/ipq5018.dtsi
 +++ b/arch/arm64/boot/dts/qcom/ipq5018.dtsi
 @@ -94,6 +94,19 @@
