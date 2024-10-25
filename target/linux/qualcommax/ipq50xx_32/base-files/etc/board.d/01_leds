@@ -1,0 +1,19 @@
+
+. /lib/functions/leds.sh
+. /lib/functions/uci-defaults.sh
+
+board_config_update
+
+board=$(board_name)
+
+case $board in
+	redmi,ax3000)
+		ucidef_set_led_switch "wan" "WAN" "blue:internet" "switch1" "$( bits 4 )"
+		;;
+*)
+		;;
+esac
+
+board_config_flush
+
+exit 0

@@ -38,10 +38,10 @@ ALLWIFIBOARDS:= \
 	edgecore_eap102 \
 	edimax_cax1800 \
 	gl-b3000 \
-  linksys_mx2000 \
+	linksys_mx2000 \
 	linksys_mx4200 \
 	linksys_mx5300 \
-  linksys_mx5500 \
+	linksys_mx5500 \
 	linksys_mx8500 \
 	linksys_whw03 \
 	netgear_lbr20 \
@@ -52,6 +52,7 @@ ALLWIFIBOARDS:= \
 	netgear_wax620 \
 	netgear_wax630 \
 	prpl_haze \
+	redmi_ax3000 \
 	qnap_301w \
 	redmi_ax6 \
 	skspruce_wia3300-20 \
@@ -186,6 +187,7 @@ $(eval $(call generate-ipq-wifi-package,netgear_wax218,Netgear WAX218))
 $(eval $(call generate-ipq-wifi-package,netgear_wax620,Netgear WAX620))
 $(eval $(call generate-ipq-wifi-package,netgear_wax630,Netgear WAX630))
 $(eval $(call generate-ipq-wifi-package,qnap_301w,QNAP 301w))
+$(eval $(call generate-ipq-wifi-package,redmi_ax3000,Redmi AX3000))
 $(eval $(call generate-ipq-wifi-package,prpl_haze,prpl Haze))
 $(eval $(call generate-ipq-wifi-package,redmi_ax6,Redmi AX6))
 $(eval $(call generate-ipq-wifi-package,skspruce_wia3300-20,SKSpruce WIA3300-20))

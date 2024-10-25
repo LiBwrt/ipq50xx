@@ -10,6 +10,7 @@ platform_check_image() {
 
 platform_do_upgrade() {
 	case "$(board_name)" in
+	redmi,ax3000|\
 	glinet,gl-b3000)
 		nand_do_upgrade "$1"
 		;;

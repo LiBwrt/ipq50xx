@@ -8,6 +8,8 @@ touch /etc/config/ubootenv
 board=$(board_name)
 
 case "$board" in
+
+redmi,ax3000|\
 linksys,mx2000|\
 linksys,mx5500)
 	idx="$(find_mtd_index u_env)"

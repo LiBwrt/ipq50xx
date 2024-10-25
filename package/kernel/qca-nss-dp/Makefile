@@ -38,9 +38,17 @@ EXTRA_CFLAGS+= \
 	-I$(STAGING_DIR)/usr/include/qca-ssdk
 
 NSS_DP_HAL_DIR:=$(PKG_BUILD_DIR)/hal
+
 define Build/Configure
-	$(CP) $(NSS_DP_HAL_DIR)/soc_ops/$(CONFIG_TARGET_SUBTARGET)/nss_$(CONFIG_TARGET_SUBTARGET).h \
-		$(PKG_BUILD_DIR)/exports/nss_dp_arch.h
+	ifeq ($(CONFIG_TARGET_SUBTARGET),ipq50xx_32)
+		COPY_FILE=$(NSS_DP_HAL_DIR)/soc_ops/ipq50xx/nss_ipq50xx.h
+	else
+		COPY_FILE=$(NSS_DP_HAL_DIR)/soc_ops/$(CONFIG_TARGET_SUBTARGET)/nss_$(CONFIG_TARGET_SUBTARGET).h
+	endif
+
+	$(CP) $$COPY_FILE $(PKG_BUILD_DIR)/exports/nss_dp_arch.h
+endef
+
 endef
 
 define Build/Compile
