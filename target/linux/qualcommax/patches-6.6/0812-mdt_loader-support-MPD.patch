@@ -5,13 +5,21 @@ Subject: [PATCH 2/5] mdt_loader: support MPD
 
 Signed-off-by: hzy <hzyitc@outlook.com>
 ---
- drivers/soc/qcom/mdt_loader.c       | 110 ++++++++++++++++++++++++++--
+ drivers/soc/qcom/mdt_loader.c       | 111 +++++++++++++++++++++++++++--
  include/linux/soc/qcom/mdt_loader.h |   5 ++
- 2 files changed, 110 insertions(+), 5 deletions(-)
+ 2 files changed, 111 insertions(+), 5 deletions(-)
 
 --- a/drivers/soc/qcom/mdt_loader.c
 +++ b/drivers/soc/qcom/mdt_loader.c
-@@ -16,6 +16,16 @@
+@@ -7,6 +7,7 @@
+  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+  */
+ 
++#include <linux/bitfield.h>
+ #include <linux/device.h>
+ #include <linux/elf.h>
+ #include <linux/firmware.h>
+@@ -16,6 +17,16 @@
  #include <linux/sizes.h>
  #include <linux/slab.h>
  #include <linux/soc/qcom/mdt_loader.h>
@@ -28,7 +36,7 @@ Signed-off-by: hzy <hzyitc@outlook.com>
  
  static bool mdt_phdr_valid(const struct elf32_phdr *phdr)
  {
-@@ -69,6 +79,56 @@ static ssize_t mdt_load_split_segment(vo
+@@ -69,6 +80,56 @@ static ssize_t mdt_load_split_segment(vo
  	return ret;
  }
  
@@ -46,7 +54,7 @@ Signed-off-by: hzy <hzyitc@outlook.com>
 +
 +	args = dma_alloc_coherent(dev, sizeof(*args) + sizeof(*addrs), &dma_args, GFP_DMA);
 +	if (!args) {
-+		dev_err(dev, "Error in dma alloc regin: %ld\n", sizeof(*args));
++		dev_err(dev, "Error in dma alloc regin: %zu\n", sizeof(*args));
 +		return -ENOMEM;
 +	}
 +
@@ -85,7 +93,7 @@ Signed-off-by: hzy <hzyitc@outlook.com>
  /**
   * qcom_mdt_get_size() - acquire size of the memory region needed to load mdt
   * @fw:		firmware object for the mdt file
-@@ -295,7 +355,8 @@ static bool qcom_mdt_bins_are_split(cons
+@@ -295,7 +356,8 @@ static bool qcom_mdt_bins_are_split(cons
  static int __qcom_mdt_load(struct device *dev, const struct firmware *fw,
  			   const char *fw_name, int pas_id, void *mem_region,
  			   phys_addr_t mem_phys, size_t mem_size,
@@ -95,7 +103,7 @@ Signed-off-by: hzy <hzyitc@outlook.com>
  {
  	const struct elf32_phdr *phdrs;
  	const struct elf32_phdr *phdr;
-@@ -349,6 +410,14 @@ static int __qcom_mdt_load(struct device
+@@ -349,6 +411,14 @@ static int __qcom_mdt_load(struct device
  		if (!mdt_phdr_valid(phdr))
  			continue;
  
@@ -110,7 +118,7 @@ Signed-off-by: hzy <hzyitc@outlook.com>
  		offset = phdr->p_paddr - mem_reloc;
  		if (offset < 0 || offset + phdr->p_memsz > mem_size) {
  			dev_err(dev, "segment outside memory range\n");
-@@ -366,7 +435,11 @@ static int __qcom_mdt_load(struct device
+@@ -366,7 +436,11 @@ static int __qcom_mdt_load(struct device
  
  		ptr = mem_region + offset;
  
@@ -123,7 +131,7 @@ Signed-off-by: hzy <hzyitc@outlook.com>
  			/* Firmware is large enough to be non-split */
  			if (phdr->p_offset + phdr->p_filesz > fw->size) {
  				dev_err(dev, "file %s segment %d would be truncated\n",
-@@ -383,7 +456,7 @@ static int __qcom_mdt_load(struct device
+@@ -383,7 +457,7 @@ static int __qcom_mdt_load(struct device
  				break;
  		}
  
@@ -132,7 +140,7 @@ Signed-off-by: hzy <hzyitc@outlook.com>
  			memset(ptr + phdr->p_filesz, 0, phdr->p_memsz - phdr->p_filesz);
  	}
  
-@@ -418,7 +491,7 @@ int qcom_mdt_load(struct device *dev, co
+@@ -418,7 +492,7 @@ int qcom_mdt_load(struct device *dev, co
  		return ret;
  
  	return __qcom_mdt_load(dev, fw, firmware, pas_id, mem_region, mem_phys,
@@ -141,7 +149,7 @@ Signed-off-by: hzy <hzyitc@outlook.com>
  }
  EXPORT_SYMBOL_GPL(qcom_mdt_load);
  
-@@ -441,9 +514,36 @@ int qcom_mdt_load_no_init(struct device
+@@ -441,9 +515,36 @@ int qcom_mdt_load_no_init(struct device
  			  size_t mem_size, phys_addr_t *reloc_base)
  {
  	return __qcom_mdt_load(dev, fw, firmware, pas_id, mem_region, mem_phys,

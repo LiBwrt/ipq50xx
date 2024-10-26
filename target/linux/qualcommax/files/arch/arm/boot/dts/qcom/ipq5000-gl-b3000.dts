@@ -468,6 +468,7 @@
 	status = "okay";
 };
 &wifi1 {
+	// QCN6102 5G
 	qcom,rproc = <&q6_wcss_pd3>;
 	qcom,userpd-subsys-name = "q6v5_wcss_userpd3";
 	qcom,ath11k-calibration-variant = "GL-iNet-GL-B3000";
